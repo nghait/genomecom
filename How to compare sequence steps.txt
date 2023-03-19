@@ -1,0 +1,8 @@
+ cd '/media/sf_ShareWithVM/Genetics/Download genomes' 
+ for line in $(cat listB.txt); do esearch -db nucleotide -query $line | efetch -format fasta > $line.fa; done
+ for file in *.fa; do head $file; done
+ for file in *.fa; do makeblastdb -in $file -parse_seqids -dbtype nucl; done
+ blastn -query KU740200.fa -db NC_045512.fa -task blastn -word_size 5 -evalue 10 -penalty -2 -reward 1 -outfmt 6 -out NCKU.blast
+ blastn -query OW444299.1.fa -db KU740200.fa -task blastn -word_size 5 -evalue 10 -penalty -2 -reward 1 -outfmt 6 -out KUOW99.blast
+ blastn -query OW444422.1.fa -db OW444299.1.fa -task blastn -word_size 5 -evalue 10 -penalty -2 -reward 1 -outfmt 6 -out OWOW22.blast
+ act NC_045512.fa NCKU.blast KU740200.fa KUOW99.blast OW444299.1.fa OWOW22.blast OW444422.1.fa
